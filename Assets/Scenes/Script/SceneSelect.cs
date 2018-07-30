@@ -13,4 +13,9 @@ public class SceneSelect : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public void OnClick()
+	{
+		
+	}
 }
