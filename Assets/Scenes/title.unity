@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 274627905}
   - component: {fileID: 274627904}
   - component: {fileID: 274627903}
+  - component: {fileID: 274627906}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -213,7 +214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000022888, y: -159}
+  m_AnchoredPosition: {x: 0.000022888, y: -118}
   m_SizeDelta: {x: 327.3, y: 87.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &274627903
@@ -254,7 +255,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 274627904}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 274627906}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &274627904
@@ -291,6 +303,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 274627901}
   m_CullTransparentMesh: 0
+--- !u!114 &274627906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 274627901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d14acbe30486e8478b7813e7e280d38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMessage: []
 --- !u!1 &281449945
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +443,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000015259, y: 210}
+  m_AnchoredPosition: {x: 0.000015259, y: 116}
   m_SizeDelta: {x: 644.7, y: 116.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &451104026
