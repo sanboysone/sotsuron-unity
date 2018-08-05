@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneSelect : MonoBehaviour {
+public class URLcheck : MonoBehaviour
+{
 
-	public string[] textMessage; //テキストの加工前の一行を入れる変数
-	public static string UrlString;
-	public static Text result_text;
+	public InputField InputF;
+	public string url;
 	private string code;
-	private bool urlError     = false;
-	private bool timeOutError = false;
-	private string password   = "sanboysone";
+	
+	public Text result_text;
+	
+	private string password = "sanboysone";     //phpのパスワード
+	
+	//エラーテキスト
+	public Text ErrorText;
+	private bool urlError;
+	private bool timeOutError;
+	
 	
 	// Use this for initialization
 	void Start () {
-		TextAsset textasset = new TextAsset(); //テキストファイルのデータを取得するインスタンスを作成
-		textasset = Resources.Load("URL", typeof(TextAsset) )as TextAsset; //Resourcesフォルダから対象テキストを取得
-		string TextLines = textasset.text; //テキスト全体をstring型で入れる変数を用意して入れる
-		
-		Debug.Log(TextLines);
-
-		//Splitで一行づつを代入した1次配列を作成
-		textMessage = TextLines.Split('¥'); 
-		
-		Debug.Log(textMessage[0]);
+		urlError = false;
+		timeOutError = false;
 	}
 	
 	// Update is called once per frame
@@ -34,29 +33,32 @@ public class SceneSelect : MonoBehaviour {
 		
 	}
 
-	public void OnClick(){
-		if (textMessage == null || textMessage[0].Equals("none"))
+	public void OnClick()
+	{
+		
+		if (InputF.text == "")
 		{
-			SceneManager.LoadScene ("school_select"); //学校のurlを入力するシーン
+			ErrorText.text = "URLが入力されていません";
+			urlError = true;
 		}
 		else
 		{
-			UrlString = textMessage[0];
-			code = UrlString + "/unity/firstconnection.php";
-			StartCoroutine("Access");
-
-			if (result_text == null || urlError == true || timeOutError == true)
-			{
-				SceneManager.LoadScene ("school_select"); 	
-			}
-			else
-			{
-				SceneManager.LoadScene ("main"); //学校のurlが入力済みだった場合はメイン画面に行く
-			}
+			url = "http://" + InputF.text;
+			Debug.Log(url);
 			
+			code = url + "/unity/firstconnection.php";
+			StartCoroutine("Access");   //Accessコルーチンの開始
+		
+		}
+		
+		if (urlError == false && timeOutError == false && result_text != null)
+		{
+			Debug.Log(result_text.text);
+			//データ入れる
+			//テキストのURLにこのURLを入れてpublic statis string schoolを格納するスクリプトを作ってそこに入れる。
 		}
 	}
-	
+
 	private IEnumerator Access() {
 		Dictionary<string, string> dic = new Dictionary<string, string>();
 
@@ -80,6 +82,7 @@ public class SceneSelect : MonoBehaviour {
 		if (www.error != null) {
 			Debug.Log("HttpPost NG: " + www.error);
 			urlError = true;
+			ErrorText.text = "URLが間違っています";
 			//そもそも接続ができていないとき
 
 		} else if (www.isDone) {
@@ -98,9 +101,13 @@ public class SceneSelect : MonoBehaviour {
 				Debug.Log("TimeOut");  //タイムアウト
 				//タイムアウト処理
 				timeOutError = true;
+				ErrorText.text = "接続エラー";
 				break;
 			}
 		}
 		yield return null;
 	}
+	
+	
+	
 }
