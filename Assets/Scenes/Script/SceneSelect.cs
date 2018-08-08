@@ -9,7 +9,7 @@ public class SceneSelect : MonoBehaviour {
 
 	public string[] textMessage; //テキストの加工前の一行を入れる変数
 	public static string UrlString;
-	public static Text result_text;
+	public  Text result_text;
 	private string code;
 	private bool urlError     = false;
 	private bool timeOutError = false;

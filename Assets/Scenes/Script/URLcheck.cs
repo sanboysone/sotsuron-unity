@@ -9,10 +9,10 @@ public class URLcheck : MonoBehaviour
 {
 
 	public InputField InputF;
-	public string url;
+	private string url;
 	private string code;
-	
-	public Text result_text;
+
+	public  Text result_text;
 	
 	private string password = "sanboysone";     //phpのパスワード
 	
@@ -43,7 +43,7 @@ public class URLcheck : MonoBehaviour
 		}
 		else
 		{
-			url = "http://" + InputF.text;
+			url = /* "http://" + */ InputF.text;
 			Debug.Log(url);
 			
 			code = url + "/unity/firstconnection.php";
@@ -53,7 +53,7 @@ public class URLcheck : MonoBehaviour
 		
 		if (urlError == false && timeOutError == false && result_text != null)
 		{
-			Debug.Log(result_text.text);
+			Debug.Log(result_text);
 			//データ入れる
 			//テキストのURLにこのURLを入れてpublic statis string schoolを格納するスクリプトを作ってそこに入れる。
 		}
