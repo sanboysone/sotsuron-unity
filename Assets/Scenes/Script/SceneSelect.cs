@@ -9,6 +9,7 @@ public class SceneSelect : MonoBehaviour {
 
 	public string[] textMessage; //テキストの加工前の一行を入れる変数
 	public static string UrlString;
+	public static string schoolname;
 	public  Text result_text;
 	private string code;
 	private bool urlError     = false;
@@ -16,7 +17,11 @@ public class SceneSelect : MonoBehaviour {
 	private string password   = "sanboysone";
 	
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
+
+		schoolname = null;
+		
 		TextAsset textasset = new TextAsset(); //テキストファイルのデータを取得するインスタンスを作成
 		textasset = Resources.Load("URL", typeof(TextAsset) )as TextAsset; //Resourcesフォルダから対象テキストを取得
 		string TextLines = textasset.text; //テキスト全体をstring型で入れる変数を用意して入れる
@@ -35,7 +40,7 @@ public class SceneSelect : MonoBehaviour {
 	}
 
 	public void OnClick(){
-		if (textMessage == null || textMessage[0].Equals("none"))
+		if (textMessage[0] == "" || textMessage[0].Equals("none"))
 		{
 			SceneManager.LoadScene ("school_select"); //学校のurlを入力するシーン
 		}
@@ -45,12 +50,14 @@ public class SceneSelect : MonoBehaviour {
 			code = UrlString + "/unity/firstconnection.php";
 			StartCoroutine("Access");
 
-			if (result_text == null || urlError == true || timeOutError == true)
+			if ( result_text.GetComponent<Text>().text == null ||  urlError == true || timeOutError == true)
 			{
 				SceneManager.LoadScene ("school_select"); 	
 			}
 			else
 			{
+				Debug.Log(result_text.GetComponent<Text>().text);
+				schoolname = result_text.GetComponent<Text>().text;
 				SceneManager.LoadScene ("main"); //学校のurlが入力済みだった場合はメイン画面に行く
 			}
 			

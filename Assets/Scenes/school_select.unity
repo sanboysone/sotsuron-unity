@@ -663,6 +663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputF: {fileID: 20283098}
   result_text: {fileID: 1872834533}
+  result_string: 
   ErrorText: {fileID: 1224270796}
 --- !u!1 &685679323
 GameObject:
@@ -1130,7 +1131,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &1872834534
 CanvasRenderer:
   m_ObjectHideFlags: 0

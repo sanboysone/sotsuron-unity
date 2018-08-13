@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection.Emit;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class URLcheck : MonoBehaviour
 {
 
+	// URLと学校名のstatic
+	public static string UrlString;
+	public static string schoolname;
+	
 	public InputField InputF;
 	private string url;
 	private string code;
 
 	public  Text result_text;
+	public string result_string;
 	
 	private string password = "sanboysone";     //phpのパスワード
 	
@@ -43,7 +50,7 @@ public class URLcheck : MonoBehaviour
 		}
 		else
 		{
-			url = /* "http://" + */ InputF.text;
+			url =  "http://" +  InputF.text;
 			Debug.Log(url);
 			
 			code = url + "/unity/firstconnection.php";
@@ -53,7 +60,13 @@ public class URLcheck : MonoBehaviour
 		
 		if (urlError == false && timeOutError == false && result_text != null)
 		{
-			Debug.Log(result_text);
+			Debug.Log(result_text.GetComponent<Text>().text);
+			UrlString = url;
+			schoolname = result_text.GetComponent<Text>().text;
+			url = url + "¥";
+				
+			WriteText("Assets/Resources/URL.txt", url);
+			SceneManager.LoadScene("main");
 			//データ入れる
 			//テキストのURLにこのURLを入れてpublic statis string schoolを格納するスクリプトを作ってそこに入れる。
 		}
@@ -106,6 +119,13 @@ public class URLcheck : MonoBehaviour
 			}
 		}
 		yield return null;
+	}
+	
+	private void WriteText( string _filePath, string _contents ){
+		StreamWriter sw;
+		sw = new StreamWriter(_filePath, false);
+		sw.WriteLine(_contents);
+		sw.Close();
 	}
 	
 	
