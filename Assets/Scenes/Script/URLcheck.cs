@@ -72,6 +72,7 @@ public class URLcheck : MonoBehaviour
 				
 				WriteText("Assets/Resources/URL.txt", url);
 				SceneSelect.schoolname = schoolname;
+				SceneSelect.UrlString = UrlString;
 				SceneManager.LoadScene("main");
 				//データ入れる
 				//テキストのURLにこのURLを入れてpublic statis string schoolを格納するスクリプトを作ってそこに入れる。
