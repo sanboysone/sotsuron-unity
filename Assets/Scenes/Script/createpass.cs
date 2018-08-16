@@ -5,96 +5,72 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class login : MonoBehaviour
+public class createpass : MonoBehaviour
 {
 
-	public Text       titleText;  //タイトル（学校名のテキスト）
-	public InputField yearText;   //学年のインプット
-	public InputField classText;  //クラスのインプット
-	public InputField number;     //出席番号のインプット
-	public InputField pass;       //ログインパスワード
-	public Text       errorText;  //エラー表示テキスト
+	private string code;
+	private string student_year;
+	private string student_class;
+	private string student_number;
+	private string student_name;
+
+	public Text       title;
+	public Text       user;
+	public InputField pass1;
+	public InputField pass2;
+	public Text       errorText;
+	private string    password = "sanboysone";
+
+	private string status; //php結果一時保存場所
+	private bool   urlError = false;
+	private bool   timeOutError = false;
 	
-	
-	private string schoolname;
-	private string URL;
-	private string code;           // phpのパスとファイル名を入れる場所
-
-
-	public static string student_year;    //学年
-	public static string student_class;   //クラス
-	public static string student_number;  //出席番号
-	public static string student_name;    //名前
-
-	private string status;
-	
-	private bool timeOutError;
-	private bool urlError;
-
-	private string password = "sanboysone";
 	// Use this for initialization
 	void Start ()
 	{
-		timeOutError = false;
-		urlError = false;
-
-		status = null;
+		title.text = SceneSelect.schoolname;
+		code = SceneSelect.UrlString + "/unity/username.php";
+		student_year = login.student_year;
+		student_class = login.student_class;
+		student_number = login.student_number;
+		user.text = student_year + "年　" + student_class + "組　" + student_number + "番　";
+		StartCoroutine("Access");   //Accessコルーチンの開始
+		StartCoroutine(DelayMethod(4, () =>
+		{
+			student_name = status;
+			login.student_name = student_name;
+		}));		
 		
-		schoolname = SceneSelect.schoolname;
-		Debug.Log("schoolname = " + schoolname);
-
-		titleText.GetComponent<Text>().text = schoolname;
-		Debug.Log("login text :" + titleText.GetComponent<Text>().text);
-
-		URL = SceneSelect.UrlString;
-
+		user.text = student_year + "年　" + student_class + "組　" + student_number + "番　" + student_name;
 	}
 	
 	// Update is called once per frame
-	void Update () 
-	{
+	void Update () {
 		
 	}
 
 	public void onclick()
 	{
-		if (string.IsNullOrEmpty(yearText.text) || string.IsNullOrEmpty(classText.text) || string.IsNullOrEmpty(number.text))
+		if (pass1.text.Equals(pass2.text))
 		{
-			errorText.GetComponent<Text>().text = "未入力があります";
-		}
-		else
-		{
-			code = URL + "/unity/userinformation.php"; //phpのファイル指定
-
-			student_year   = yearText.text;
-			student_class  = classText.text;
-			student_number = number.text;
-
-			StartCoroutine("Access");   //Accessコルーチンの開始
+			code = SceneSelect.UrlString + "/unity/registerpass.php";
+		
+			StartCoroutine("Access2");   //Accessコルーチンの開始
 			StartCoroutine(DelayMethod(4, () =>
 			{
-				if (status == "success") //phpから返ってくる結果に応じた処理をする
+				if (status == "success")
 				{
-					//メインメニューに進む
-				}
-				else if (status == "nopass")
-				{
-					//createpassword
-					SceneManager.LoadScene("createpass");
-				}
-				else if (status == "notaccess")
-				{
-					errorText.GetComponent<Text>().text = "パスワードが間違っています";
-				}
-				else if (status == "notinput")
-				{
-					errorText.GetComponent<Text>().text = "パスワードが未入力です";
+					SceneManager.LoadScene("main");
 				}
 				else
 				{
 					errorText.GetComponent<Text>().text = "エラー：管理者に連絡してください";
 				}
-			}));
+			}));	
+		}
+		else
+		{
+			errorText.GetComponent<Text>().text = "パスワードが再入力したパスワードと一致しません";
 		}
 		
 	}
@@ -105,8 +81,23 @@ public class login : MonoBehaviour
 		dic.Add("password"   , password);  //インプットフィールドからidの取得);
 		dic.Add("year"       , student_year);
 		dic.Add("class"      , student_class);
-		dic.Add("number"     , student_number);
-		dic.Add("login_pass" , pass.text);
+		dic.Add("number"     , student_number);	
+		//複数phpに送信したいデータがある場合は今回の場合dic.Add("hoge", value)のように足していけばよい
+
+		StartCoroutine(Post(code, dic));  // POST
+
+		yield return 0;
+	}
+	
+	private IEnumerator Access2() {
+		Dictionary<string, string> dic = new Dictionary<string, string>();
+
+		dic.Add("password"     , password);  //インプットフィールドからidの取得);
+		dic.Add("year"         , student_year);
+		dic.Add("class"        , student_class);
+		dic.Add("number"       , student_number);
+		dic.Add("submit_pass"  , pass1.text);
+		dic.Add("submit_pass2" , pass2.text);
 		
 		
 		//複数phpに送信したいデータがある場合は今回の場合dic.Add("hoge", value)のように足していけばよい
