@@ -73,22 +73,27 @@ public class login : MonoBehaviour
 			StartCoroutine("Access");   //Accessコルーチンの開始
 			StartCoroutine(DelayMethod(4, () =>
 			{
-				if (status == "success") //phpから返ってくる結果に応じた処理をする
+				if (status.Equals("success")) //phpから返ってくる結果に応じた処理をする
 				{
 					//メインメニューに進む
+					SceneManager.LoadScene("Menu");
 				}
-				else if (status == "nopass")
+				else if (status.Equals("nopass"))
 				{
 					//createpassword
 					SceneManager.LoadScene("createpass");
 				}
-				else if (status == "notaccess")
+				else if (status.Equals("notaccess"))
 				{
 					errorText.GetComponent<Text>().text = "パスワードが間違っています";
 				}
-				else if (status == "notinput")
+				else if (status.Equals("notinput"))
 				{
 					errorText.GetComponent<Text>().text = "パスワードが未入力です";
+				}
+				else if (status.Equals("nouser"))
+				{
+					errorText.GetComponent<Text>().text = "ユーザーが登録されていません";
 				}
 				else
 				{

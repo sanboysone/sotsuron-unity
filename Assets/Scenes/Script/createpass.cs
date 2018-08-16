@@ -39,9 +39,10 @@ public class createpass : MonoBehaviour
 		{
 			student_name = status;
 			login.student_name = student_name;
+			Debug.Log(student_name);
+			user.text = student_year + "年　" + student_class + "組　" + student_number + "番　" + student_name;
 		}));		
-		
-		user.text = student_year + "年　" + student_class + "組　" + student_number + "番　" + student_name;
+		code = SceneSelect.UrlString + "/unity/registerpass.php";
 	}
 	
 	// Update is called once per frame
@@ -53,14 +54,20 @@ public class createpass : MonoBehaviour
 	{
 		if (pass1.text.Equals(pass2.text))
 		{
-			code = SceneSelect.UrlString + "/unity/registerpass.php";
+			
 		
 			StartCoroutine("Access2");   //Accessコルーチンの開始
 			StartCoroutine(DelayMethod(4, () =>
 			{
-				if (status == "success")
+				Debug.Log(status);
+				if (status.Equals("success"))
 				{
-					SceneManager.LoadScene("main");
+					errorText.GetComponent<Text>().text = "登録完了：ログイン画面に戻ります";
+					StartCoroutine(DelayMethod(5, () =>
+					{
+						SceneManager.LoadScene("main");
+					}));
+					
 				}
 				else
 				{
@@ -96,8 +103,7 @@ public class createpass : MonoBehaviour
 		dic.Add("year"         , student_year);
 		dic.Add("class"        , student_class);
 		dic.Add("number"       , student_number);
-		dic.Add("submit_pass"  , pass1.text);
-		dic.Add("submit_pass2" , pass2.text);
+		dic.Add("pass1"        , pass1.text);
 		
 		
 		//複数phpに送信したいデータがある場合は今回の場合dic.Add("hoge", value)のように足していけばよい
