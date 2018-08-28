@@ -21,6 +21,7 @@ public class login : MonoBehaviour
 	private string code;           // phpのパスとファイル名を入れる場所
 
 
+	public static string student_id;
 	public static string student_year;    //学年
 	public static string student_class;   //クラス
 	public static string student_number;  //出席番号
@@ -41,7 +42,7 @@ public class login : MonoBehaviour
 		status = null;
 		
 		schoolname = SceneSelect.schoolname;
-		Debug.Log("schoolname = " + schoolname);
+		//Debug.Log("schoolname = " + schoolname);
 
 		titleText.GetComponent<Text>().text = schoolname;
 		Debug.Log("login text :" + titleText.GetComponent<Text>().text);
@@ -73,14 +74,32 @@ public class login : MonoBehaviour
 			StartCoroutine("Access");   //Accessコルーチンの開始
 			StartCoroutine(DelayMethod(4, () =>
 			{
+				Debug.Log("pass = $" + pass.text + "$");
+				Debug.Log("status = " + status);
 				if (status.Equals("success")) //phpから返ってくる結果に応じた処理をする
 				{
 					//メインメニューに進む
-					SceneManager.LoadScene("Menu");
+					code = URL + "/unity/username.php";
+					StartCoroutine("Access");
+					StartCoroutine(DelayMethod(9, () =>
+					{
+						student_name = status;
+						Debug.Log("name = " + student_name);
+						code = URL + "/unity/userid.php";
+						StartCoroutine("Access");
+						StartCoroutine(DelayMethod(9, () =>
+						{
+							student_id = status;
+							Debug.Log("id = " + student_id);
+							SceneManager.LoadScene("Menu");
+						}));
+					}));
+					
+					//SceneManager.LoadScene("Menu");
 				}
 				else if (status.Equals("nopass"))
 				{
-					//createpassword
+					//createpassword				
 					SceneManager.LoadScene("createpass");
 				}
 				else if (status.Equals("notaccess"))
@@ -111,7 +130,7 @@ public class login : MonoBehaviour
 		dic.Add("year"       , student_year);
 		dic.Add("class"      , student_class);
 		dic.Add("number"     , student_number);
-		dic.Add("login_pass" , pass.text);
+		dic.Add("pass" , pass.text);
 		
 		
 		//複数phpに送信したいデータがある場合は今回の場合dic.Add("hoge", value)のように足していけばよい

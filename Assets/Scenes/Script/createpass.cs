@@ -22,8 +22,11 @@ public class createpass : MonoBehaviour
 	private string    password = "sanboysone";
 
 	private string status; //php結果一時保存場所
+	private string status2;
 	private bool   urlError = false;
 	private bool   timeOutError = false;
+	
+
 	
 	// Use this for initialization
 	void Start ()
@@ -35,14 +38,13 @@ public class createpass : MonoBehaviour
 		student_number = login.student_number;
 		user.text = student_year + "年　" + student_class + "組　" + student_number + "番　";
 		StartCoroutine("Access");   //Accessコルーチンの開始
-		StartCoroutine(DelayMethod(4, () =>
+		StartCoroutine(DelayMethod(6, () =>
 		{
 			student_name = status;
 			login.student_name = student_name;
 			Debug.Log(student_name);
 			user.text = student_year + "年　" + student_class + "組　" + student_number + "番　" + student_name;
 		}));		
-		code = SceneSelect.UrlString + "/unity/registerpass.php";
 	}
 	
 	// Update is called once per frame
@@ -52,15 +54,15 @@ public class createpass : MonoBehaviour
 
 	public void onclick()
 	{
-		if (pass1.text.Equals(pass2.text))
+		if (pass1.text.Equals(pass2.text) && (pass1.text != "" && pass2.text != ""))
 		{
 			
-		
+			code = SceneSelect.UrlString + "/unity/registerpass.php";
 			StartCoroutine("Access2");   //Accessコルーチンの開始
-			StartCoroutine(DelayMethod(4, () =>
+			StartCoroutine(DelayMethod(6, () =>
 			{
-				Debug.Log(status);
-				if (status.Equals("success"))
+				Debug.Log("status2 = " + status2);
+				if (status2.Equals("success"))
 				{
 					errorText.GetComponent<Text>().text = "登録完了：ログイン画面に戻ります";
 					StartCoroutine(DelayMethod(5, () =>
@@ -74,6 +76,10 @@ public class createpass : MonoBehaviour
 					errorText.GetComponent<Text>().text = "エラー：管理者に連絡してください";
 				}
 			}));	
+		}
+		else if (pass1.text == "" || pass2.text == "")
+		{
+			errorText.GetComponent<Text>().text = "未入力があります";
 		}
 		else
 		{
@@ -108,7 +114,7 @@ public class createpass : MonoBehaviour
 		
 		//複数phpに送信したいデータがある場合は今回の場合dic.Add("hoge", value)のように足していけばよい
 
-		StartCoroutine(Post(code, dic));  // POST
+		StartCoroutine(Post2(code, dic));  // POST
 
 		yield return 0;
 	}
@@ -130,6 +136,26 @@ public class createpass : MonoBehaviour
 		} else if (www.isDone) {
 			//送られてきたデータをテキストに反映
 			status = www.text;
+		}
+	}
+	
+	private IEnumerator Post2(string url, Dictionary<string, string> post) {
+		WWWForm form = new WWWForm();
+		foreach (KeyValuePair<string, string> post_arg in post) {
+			form.AddField(post_arg.Key, post_arg.Value);
+		}
+		WWW www = new WWW(url, form);
+
+		yield return StartCoroutine(CheckTimeOut(www, 3f)); //TimeOutSecond = 3s;
+
+		if (www.error != null) {
+			Debug.Log("HttpPost NG: " + www.error);
+			urlError = true;
+			//そもそも接続ができていないとき
+
+		} else if (www.isDone) {
+			//送られてきたデータをテキストに反映
+			status2 = www.text;
 		}
 	}
 

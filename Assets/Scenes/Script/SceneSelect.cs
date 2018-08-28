@@ -87,7 +87,7 @@ public class SceneSelect : MonoBehaviour {
 			}
 			else
 			{
-				Debug.Log(result);
+				//Debug.Log(result);
 				schoolname = result;
 				SceneManager.LoadScene ("main"); //学校のurlが入力済みだった場合はメイン画面に行く
 			}
@@ -122,7 +122,7 @@ public class SceneSelect : MonoBehaviour {
 
 		} else if (www.isDone) {
 			//送られてきたデータをテキストに反映
-			Debug.Log("www.log = " + www.text);
+			//Debug.Log("www.log = " + www.text);
 			result_text.GetComponent<Text>().text = www.text;
 			result = www.text;
 		}
