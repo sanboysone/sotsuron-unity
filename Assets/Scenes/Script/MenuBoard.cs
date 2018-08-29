@@ -19,6 +19,7 @@ public class MenuBoard : MonoBehaviour
 	//ボードテキスト
 	public Text schoolName;
 	public Text UserInformation;
+	public Text ErrorText;
 	
 	//学校名
 	private string schoolname;
@@ -54,6 +55,15 @@ public class MenuBoard : MonoBehaviour
 	
 	//ボタンの設定
 	private int[] buttonNumber = new int[4];
+
+	public Text one;
+	public Text two;
+	public Text three;
+	public Text four;
+	
+	//現在のページ数
+	private int pages = 1;
+	
 	//区切り変数
 	//string[] arr =  status.Split(splitter, StringSplitOptions.None);
 
@@ -137,16 +147,16 @@ public class MenuBoard : MonoBehaviour
 							buttonNumber[i] = i;
 						}
 					}
+					
+					one.text = buttonNumber[0] != -1 ? qd[0].question_title : "問題が登録されていません";
+					two.text = buttonNumber[1] != -1 ? qd[1].question_title : "問題が登録されていません";
+					three.text = buttonNumber[2] != -1 ? qd[2].question_title : "問題が登録されていません";
+					four.text = buttonNumber[3] != -1 ? qd[3].question_title : "問題が登録されていません";
+					
 				}));
 			}
-			else
-			{
-				//何も問題が登録されていない時の処理
-				for (int i = 0; i < buttonNumber.Length; i++)
-				{
-					buttonNumber[i] = -1;
-				}
-			}
+
+			
 			
 			
 		}));
@@ -167,32 +177,129 @@ public class MenuBoard : MonoBehaviour
 
 	public void clickONE()
 	{
-		
+		//elseの中に処理を書く
+		if (buttonNumber[0] == -1)
+		{
+			ErrorText.text = "押したボタンに問題がありません";
+		}
+		else
+		{
+			
+		}
 	}
 	
 	public void clickTWO()
 	{
-		
+		//elseの中に処理を書く
+		if (buttonNumber[1] == -1)
+		{
+			ErrorText.text = "押したボタンに問題がありません";
+		}
+		else
+		{
+			
+		}
 	}
 	
 	public void clickTHREE()
 	{
-		
+		//elseの中に処理を書く
+		if (buttonNumber[2] == -1)
+		{
+			ErrorText.text = "押したボタンに問題がありません";
+		}
+		else
+		{
+			
+		}
 	}
 	
 	public void clickFOUR()
 	{
+		//elseの中に処理を書く
+		if (buttonNumber[3] == -1)
+		{
+			ErrorText.text = "押したボタンに問題がありません";
+		}
+		else
+		{
+			
+		}
 		
 	}
 
 	public void back()
 	{
-		
+		//elseの中に処理を書く
+		if (pages == 1)
+		{
+			ErrorText.text = "これ以上戻れません";
+		}
+		else
+		{
+			if (pages == 2)
+			{
+				for (int i = 0; i < buttonNumber.Length; i++)
+				{
+					buttonNumber[i] = i;
+				}
+				
+				one.text = buttonNumber[0] != -1 ? qd[buttonNumber[0]].question_title : "問題が登録されていません";
+				two.text = buttonNumber[1] != -1 ? qd[buttonNumber[1]].question_title : "問題が登録されていません";
+				three.text = buttonNumber[2] != -1 ? qd[buttonNumber[2]].question_title : "問題が登録されていません";
+				four.text = buttonNumber[3] != -1 ? qd[buttonNumber[3]].question_title : "問題が登録されていません";
+				
+				pages--;
+			}
+			else
+			{
+				int num =3;
+				for (int i = ((pages -1) *4) -1; i >= (pages -2)*4; i--, num--)
+				{
+					buttonNumber[num] = i;
+				}
+				
+				one.text = buttonNumber[0] != -1 ? qd[buttonNumber[0]].question_title : "問題が登録されていません";
+				two.text = buttonNumber[1] != -1 ? qd[buttonNumber[1]].question_title : "問題が登録されていません";
+				three.text = buttonNumber[2] != -1 ? qd[buttonNumber[2]].question_title : "問題が登録されていません";
+				four.text = buttonNumber[3] != -1 ? qd[buttonNumber[3]].question_title : "問題が登録されていません";
+				
+				pages--;
+			}
+			ErrorText.text = "";
+		}
 	}
 	
 	public void next()
 	{
-		
+		//elseの中に処理を書く
+		if (count < pages * 4)
+		{
+			ErrorText.text = "これ以上進めません";
+		}
+		else
+		{
+			int j = pages *4;
+			int num = 0;
+			for (int i = pages *4; i < count; i++, j++, num++)
+			{
+				buttonNumber[num] = i;
+			}
+
+			while (j < (pages +1 )*4)
+			{
+				buttonNumber[num] = -1;
+				j++;
+				num++;
+			}
+			
+			one.text = buttonNumber[0] != -1 ? qd[buttonNumber[0]].question_title : "問題が登録されていません";
+			two.text = buttonNumber[1] != -1 ? qd[buttonNumber[1]].question_title : "問題が登録されていません";
+			three.text = buttonNumber[2] != -1 ? qd[buttonNumber[2]].question_title : "問題が登録されていません";
+			four.text = buttonNumber[3] != -1 ? qd[buttonNumber[3]].question_title : "問題が登録されていません";
+			
+			pages++;
+		}
 	}
 	
 	private IEnumerator Access() {
