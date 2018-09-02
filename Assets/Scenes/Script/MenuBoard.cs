@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuBoard : MonoBehaviour
@@ -52,6 +53,10 @@ public class MenuBoard : MonoBehaviour
 	private string[] arr;
 	private string[] questionsplit;
 	private int count;
+	
+	
+	//解答済みかどうか
+	private bool[] alreadyAnswer = new bool[4];
 	
 	//ボタンの設定
 	private int[] buttonNumber = new int[4];
@@ -153,6 +158,11 @@ public class MenuBoard : MonoBehaviour
 					three.text = buttonNumber[2] != -1 ? qd[2].question_title : "問題が登録されていません";
 					four.text = buttonNumber[3] != -1 ? qd[3].question_title : "問題が登録されていません";
 					
+					alreadyAnswer[0] = qd[0].allready == "yes" ? true : false;
+					alreadyAnswer[1] = qd[1].allready == "yes" ? true : false;
+					alreadyAnswer[2] = qd[2].allready == "yes" ? true : false;
+					alreadyAnswer[3] = qd[3].allready == "yes" ? true : false;
+					
 				}));
 			}
 
@@ -182,9 +192,26 @@ public class MenuBoard : MonoBehaviour
 		{
 			ErrorText.text = "押したボタンに問題がありません";
 		}
+		else if (alreadyAnswer[0] == false)
+		{
+			ErrorText.text = "すでに解答済みです";
+		}
 		else
 		{
-			
+			openID   = buttonNumber[0];
+			openType = qd[buttonNumber[0]].question_type;
+			if (openType.Equals("heimen"))
+			{
+				SceneManager.LoadScene("Heimen");
+			}
+			else if (openType.Equals("rittai"))
+			{
+				SceneManager.LoadScene("Rittai");
+			}
+			else
+			{
+				SceneManager.LoadScene("sonota");
+			}
 		}
 	}
 	
@@ -195,9 +222,26 @@ public class MenuBoard : MonoBehaviour
 		{
 			ErrorText.text = "押したボタンに問題がありません";
 		}
+		else if (alreadyAnswer[1] == false)
+		{
+			ErrorText.text = "すでに解答済みです";
+		}
 		else
 		{
-			
+			openID   = buttonNumber[1];
+			openType = qd[buttonNumber[1]].question_type;
+			if (openType.Equals("heimen"))
+			{
+				SceneManager.LoadScene("Heimen");
+			}
+			else if (openType.Equals("rittai"))
+			{
+				SceneManager.LoadScene("Rittai");
+			}
+			else
+			{
+				SceneManager.LoadScene("sonota");
+			}
 		}
 	}
 	
@@ -208,9 +252,26 @@ public class MenuBoard : MonoBehaviour
 		{
 			ErrorText.text = "押したボタンに問題がありません";
 		}
+		else if (alreadyAnswer[2] == false)
+		{
+			ErrorText.text = "すでに解答済みです";
+		}
 		else
 		{
-			
+			openID   = buttonNumber[2];
+			openType = qd[buttonNumber[2]].question_type;
+			if (openType.Equals("heimen"))
+			{
+				SceneManager.LoadScene("Heimen");
+			}
+			else if (openType.Equals("rittai"))
+			{
+				SceneManager.LoadScene("Rittai");
+			}
+			else
+			{
+				SceneManager.LoadScene("Sonota");
+			}
 		}
 	}
 	
@@ -221,9 +282,26 @@ public class MenuBoard : MonoBehaviour
 		{
 			ErrorText.text = "押したボタンに問題がありません";
 		}
+		else if (alreadyAnswer[3] == false)
+		{
+			ErrorText.text = "すでに解答済みです";
+		}
 		else
 		{
-			
+			openID   = buttonNumber[3];
+			openType = qd[buttonNumber[3]].question_type;	
+			if (openType.Equals("heimen"))
+			{
+				SceneManager.LoadScene("Heimen");
+			}
+			else if (openType.Equals("rittai"))
+			{
+				SceneManager.LoadScene("Rittai");
+			}
+			else
+			{
+				SceneManager.LoadScene("Sonota");
+			}
 		}
 		
 	}
@@ -242,6 +320,7 @@ public class MenuBoard : MonoBehaviour
 				for (int i = 0; i < buttonNumber.Length; i++)
 				{
 					buttonNumber[i] = i;
+					alreadyAnswer[i] = qd[i].allready == "yes" ? true : false;
 				}
 				
 				one.text = buttonNumber[0] != -1 ? qd[buttonNumber[0]].question_title : "問題が登録されていません";
@@ -257,6 +336,7 @@ public class MenuBoard : MonoBehaviour
 				for (int i = ((pages -1) *4) -1; i >= (pages -2)*4; i--, num--)
 				{
 					buttonNumber[num] = i;
+					alreadyAnswer[num] = qd[buttonNumber[num]].allready == "yes" ? true : false;
 				}
 				
 				one.text = buttonNumber[0] != -1 ? qd[buttonNumber[0]].question_title : "問題が登録されていません";
@@ -284,22 +364,29 @@ public class MenuBoard : MonoBehaviour
 			for (int i = pages *4; i < count; i++, j++, num++)
 			{
 				buttonNumber[num] = i;
+				alreadyAnswer[num] = qd[num].allready == "yes" ? true : false;
 			}
 
 			while (j < (pages +1 )*4)
 			{
 				buttonNumber[num] = -1;
+				alreadyAnswer[num] = false;
 				j++;
 				num++;
 			}
 			
-			one.text = buttonNumber[0] != -1 ? qd[buttonNumber[0]].question_title : "問題が登録されていません";
-			two.text = buttonNumber[1] != -1 ? qd[buttonNumber[1]].question_title : "問題が登録されていません";
-			three.text = buttonNumber[2] != -1 ? qd[buttonNumber[2]].question_title : "問題が登録されていません";
-			four.text = buttonNumber[3] != -1 ? qd[buttonNumber[3]].question_title : "問題が登録されていません";
+			one.text = buttonNumber[0]   != -1   ? qd[buttonNumber[0]].question_title : "問題が登録されていません";
+			two.text = buttonNumber[1]   != -1   ? qd[buttonNumber[1]].question_title : "問題が登録されていません";
+			three.text = buttonNumber[2] != -1   ? qd[buttonNumber[2]].question_title : "問題が登録されていません";
+			four.text = buttonNumber[3]  != -1   ? qd[buttonNumber[3]].question_title : "問題が登録されていません";
 			
 			pages++;
 		}
+	}
+
+	public void logout()
+	{
+		SceneManager.LoadScene("main");
 	}
 	
 	private IEnumerator Access() {
