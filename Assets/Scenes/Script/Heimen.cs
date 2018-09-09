@@ -20,6 +20,11 @@ public class Heimen : MonoBehaviour
 	public Text main;
 	public InputField IF;
 	public Text ErrorText;
+	//public Text spriteText;
+	//public Image img;
+	private Texture2D texture;
+	public Text tate;
+	public Text yoko;
 
 	//問題のデータ
 	private question_data qd;
@@ -35,12 +40,18 @@ public class Heimen : MonoBehaviour
 	private string status;
 	private bool urlError;
 	private bool timeOutError;
+
+	//これを使ってtextの位置を替える
+	//unity sprite x座標
+	private float sprite_x;
+	//unity sprite y座標
+	private float sprite_y;
 	
 	
 	
 	// Use this for initialization
 	void Start () {
-		MainSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+		//MainSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		seito_id = login.student_id;
 		qd = MenuBoard.qd[MenuBoard.openID];
 		title.text = qd.question_title;
@@ -49,14 +60,103 @@ public class Heimen : MonoBehaviour
 		code = url + "/unity/registerAnswer.php";
 
 		//ここで図形を切り替えて大きさも視野に入れて表示する
+		//図形は謎だから画像を使う
+		if (qd.zukei_type == "square")
+		{
+			Debug.Log("true");
+		}
+		else
+		{
+			Debug.Log("false");
+		}
+		
 		if (qd.zukei_type == "triangle") //三角形
 		{
-			
+			MainSpriteRenderer.sprite = triangle;
+			if (qd.tate == qd.yoko) //正三角形
+			{
+				tate.text = qd.tate.ToString();
+				yoko.text = qd.yoko.ToString();
+			}
+			else if (qd.tate >= qd.yoko) //横が長い三角形
+			{
+				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
+				MainSpriteRenderer.transform.localScale.Set(Yokohiritu, 200, 0);
+				
+				tate.text = qd.yoko.ToString();
+				yoko.text = qd.tate.ToString();
+			}
+			else //縦が長い三角形
+			{
+				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
+				MainSpriteRenderer.transform.localScale.Set(200, Tatehiritu, 0);
+				
+				tate.text = qd.yoko.ToString();
+				yoko.text = qd.tate.ToString();
+			}
+			//MainSpriteRenderer.transform.localScale.Set(144,144,1);
+
 		}
 		else if (qd.zukei_type == "square") //四角形
 		{
-			
+			//Debug.Log(qd.tate.ToString()+":"+qd.yoko.ToString());
+			MainSpriteRenderer.sprite = square;
+			if (qd.tate == qd.yoko) //正四角形
+			{
+				tate.text = qd.tate.ToString();
+				yoko.text = qd.yoko.ToString();
+			}
+			else if(qd.tate >= qd.yoko) //横が長い四角形
+			{
+				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
+				MainSpriteRenderer.transform.localScale.Set(Yokohiritu, 200, 0);
+				
+				tate.text = qd.yoko.ToString();
+				yoko.text = qd.tate.ToString();
+			}
+			else //縦が長い四角形
+			{
+				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
+				MainSpriteRenderer.transform.localScale.Set(200, Tatehiritu, 0);
+				
+				tate.text = qd.yoko.ToString();
+				yoko.text = qd.tate.ToString();
+			}
 		}
+		else if (qd.zukei_type == "diamond")
+		{
+			MainSpriteRenderer.sprite = diamond;
+			if (qd.tate == qd.yoko) //正四角形
+			{
+				tate.text = qd.tate.ToString();
+				yoko.text = qd.yoko.ToString();
+			}
+			else if(qd.tate >= qd.yoko) //横が長い四角形
+			{
+				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
+				MainSpriteRenderer.transform.localScale.Set(Yokohiritu, 200, 0);
+				
+				tate.text = qd.yoko.ToString();
+				yoko.text = qd.tate.ToString();
+			}
+			else //縦が長い四角形
+			{
+				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
+				MainSpriteRenderer.transform.localScale.Set(200, Tatehiritu, 0);
+				
+				tate.text = qd.yoko.ToString();
+				yoko.text = qd.tate.ToString();
+			}
+		}
+		else if (qd.zukei_type == "circle")
+		{
+			MainSpriteRenderer.sprite = circle;
+			tate.text = qd.tate.ToString();
+			yoko.text = qd.yoko.ToString();
+
+		}
+		
+		
 	}
 	
 	// Update is called once per frame

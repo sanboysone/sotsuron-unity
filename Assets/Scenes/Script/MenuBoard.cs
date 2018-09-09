@@ -192,7 +192,7 @@ public class MenuBoard : MonoBehaviour
 		{
 			ErrorText.text = "押したボタンに問題がありません";
 		}
-		else if (alreadyAnswer[0] == false)
+		else if (alreadyAnswer[0] == true)
 		{
 			ErrorText.text = "すでに解答済みです";
 		}
@@ -222,7 +222,7 @@ public class MenuBoard : MonoBehaviour
 		{
 			ErrorText.text = "押したボタンに問題がありません";
 		}
-		else if (alreadyAnswer[1] == false)
+		else if (alreadyAnswer[1] == true)
 		{
 			ErrorText.text = "すでに解答済みです";
 		}
@@ -252,7 +252,7 @@ public class MenuBoard : MonoBehaviour
 		{
 			ErrorText.text = "押したボタンに問題がありません";
 		}
-		else if (alreadyAnswer[2] == false)
+		else if (alreadyAnswer[2] == true)
 		{
 			ErrorText.text = "すでに解答済みです";
 		}
@@ -282,7 +282,7 @@ public class MenuBoard : MonoBehaviour
 		{
 			ErrorText.text = "押したボタンに問題がありません";
 		}
-		else if (alreadyAnswer[3] == false)
+		else if (alreadyAnswer[3] == true)
 		{
 			ErrorText.text = "すでに解答済みです";
 		}
@@ -336,7 +336,7 @@ public class MenuBoard : MonoBehaviour
 				for (int i = ((pages -1) *4) -1; i >= (pages -2)*4; i--, num--)
 				{
 					buttonNumber[num] = i;
-					alreadyAnswer[num] = qd[buttonNumber[num]].allready == "yes" ? true : false;
+					alreadyAnswer[num] = qd[buttonNumber[i]].allready == "yes" ? true : false;
 				}
 				
 				one.text = buttonNumber[0] != -1 ? qd[buttonNumber[0]].question_title : "問題が登録されていません";
@@ -364,7 +364,7 @@ public class MenuBoard : MonoBehaviour
 			for (int i = pages *4; i < count; i++, j++, num++)
 			{
 				buttonNumber[num] = i;
-				alreadyAnswer[num] = qd[num].allready == "yes" ? true : false;
+				alreadyAnswer[num] = qd[i].allready == "yes" ? true : false;
 			}
 
 			while (j < (pages +1 )*4)
