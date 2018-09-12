@@ -12,6 +12,9 @@ public class Rittai : MonoBehaviour {
 	public Text main;
 	public InputField IF;
 	public Text ErrorText;
+	
+	//生成する図形オブジェクト
+	public GameObject obj;
 
 	//問題のデータ
 	private question_data qd;
