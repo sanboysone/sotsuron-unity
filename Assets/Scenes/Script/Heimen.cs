@@ -81,7 +81,7 @@ public class Heimen : MonoBehaviour
 			else if (qd.tate >= qd.yoko) //横が長い三角形
 			{
 				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
-				MainSpriteRenderer.transform.localScale.Set(Yokohiritu, 200, 0);
+				MainSpriteRenderer.transform.localScale = new Vector3(200, Yokohiritu, 0);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
@@ -89,7 +89,7 @@ public class Heimen : MonoBehaviour
 			else //縦が長い三角形
 			{
 				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
-				MainSpriteRenderer.transform.localScale.Set(200, Tatehiritu, 0);
+				MainSpriteRenderer.transform.localScale = new Vector3(Tatehiritu, 200, 0);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
@@ -109,7 +109,7 @@ public class Heimen : MonoBehaviour
 			else if(qd.tate >= qd.yoko) //横が長い四角形
 			{
 				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
-				MainSpriteRenderer.transform.localScale.Set(Yokohiritu, 200, 0);
+				MainSpriteRenderer.transform.localScale = new Vector3(200, Yokohiritu, 0);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
@@ -117,7 +117,7 @@ public class Heimen : MonoBehaviour
 			else //縦が長い四角形
 			{
 				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
-				MainSpriteRenderer.transform.localScale.Set(200, Tatehiritu, 0);
+				MainSpriteRenderer.transform.localScale = new Vector3(Tatehiritu, 200, 0);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
@@ -134,7 +134,7 @@ public class Heimen : MonoBehaviour
 			else if(qd.tate >= qd.yoko) //横が長い四角形
 			{
 				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
-				MainSpriteRenderer.transform.localScale.Set(Yokohiritu, 200, 0);
+				MainSpriteRenderer.transform.localScale = new Vector3(200, Yokohiritu, 0);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
@@ -142,7 +142,7 @@ public class Heimen : MonoBehaviour
 			else //縦が長い四角形
 			{
 				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
-				MainSpriteRenderer.transform.localScale.Set(200, Tatehiritu, 0);
+				MainSpriteRenderer.transform.localScale = new Vector3(Tatehiritu, 200, 0);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
