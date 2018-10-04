@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Heimen : MonoBehaviour
 {
 	//表示する図形
+	public RectTransform spriteX;
 	public SpriteRenderer MainSpriteRenderer;
 	public Sprite square;
 	public Sprite triangle;
@@ -46,6 +47,8 @@ public class Heimen : MonoBehaviour
 	private float sprite_x;
 	//unity sprite y座標
 	private float sprite_y;
+
+	private double size;
 	
 	
 	
@@ -61,14 +64,6 @@ public class Heimen : MonoBehaviour
 
 		//ここで図形を切り替えて大きさも視野に入れて表示する
 		//図形は謎だから画像を使う
-		if (qd.zukei_type == "square")
-		{
-			Debug.Log("true");
-		}
-		else
-		{
-			Debug.Log("false");
-		}
 		
 		if (qd.zukei_type == "triangle") //三角形
 		{
@@ -81,20 +76,27 @@ public class Heimen : MonoBehaviour
 			else if (qd.tate >= qd.yoko) //横が長い三角形
 			{
 				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
-				MainSpriteRenderer.transform.localScale = new Vector3(200, Yokohiritu, 0);
+				spriteX.localScale = new Vector3(200, Yokohiritu, 0);
+				size = qd.tate / qd.yoko;
+				yoko.rectTransform.localScale = new Vector3(1, (float)size,1);
+				tate.rectTransform.localScale = new Vector3(1, (float)size,1);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
+				
 			}
 			else //縦が長い三角形
 			{
 				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
-				MainSpriteRenderer.transform.localScale = new Vector3(Tatehiritu, 200, 0);
+				spriteX.localScale = new Vector3(Tatehiritu, 200, 0);
+				size = qd.yoko / qd.tate;
+				tate.rectTransform.localScale = new Vector3((float)size, 1, 1);
+				yoko.rectTransform.localScale = new Vector3((float)size, 1, 1);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
 			}
-			//MainSpriteRenderer.transform.localScale.Set(144,144,1);
+			//spriteX.localScale.Set(144,144,1);
 
 		}
 		else if (qd.zukei_type == "square") //四角形
@@ -109,7 +111,10 @@ public class Heimen : MonoBehaviour
 			else if(qd.tate >= qd.yoko) //横が長い四角形
 			{
 				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
-				MainSpriteRenderer.transform.localScale = new Vector3(200, Yokohiritu, 0);
+				spriteX.localScale = new Vector3(200, Yokohiritu, 0);
+				size = qd.tate / qd.yoko;
+				yoko.rectTransform.localScale = new Vector3(1, (float)size,1);
+				tate.rectTransform.localScale = new Vector3(1, (float)size,1);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
@@ -117,7 +122,10 @@ public class Heimen : MonoBehaviour
 			else //縦が長い四角形
 			{
 				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
-				MainSpriteRenderer.transform.localScale = new Vector3(Tatehiritu, 200, 0);
+				spriteX.localScale = new Vector3(Tatehiritu, 200, 0);
+				size = qd.yoko / qd.tate;
+				tate.rectTransform.localScale = new Vector3((float)size, 1, 1);
+				yoko.rectTransform.localScale = new Vector3((float)size, 1, 1);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
@@ -134,7 +142,10 @@ public class Heimen : MonoBehaviour
 			else if(qd.tate >= qd.yoko) //横が長い四角形
 			{
 				int Yokohiritu = (int)(200 / (qd.tate / qd.yoko));
-				MainSpriteRenderer.transform.localScale = new Vector3(200, Yokohiritu, 0);
+				spriteX.localScale = new Vector3(200, Yokohiritu, 0);
+				size = qd.tate / qd.yoko;
+				yoko.rectTransform.localScale = new Vector3(1, (float)size,1);
+				tate.rectTransform.localScale = new Vector3(1, (float)size,1);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();
@@ -142,7 +153,10 @@ public class Heimen : MonoBehaviour
 			else //縦が長い四角形
 			{
 				int Tatehiritu = (int)(200 / (qd.yoko / qd.tate));
-				MainSpriteRenderer.transform.localScale = new Vector3(Tatehiritu, 200, 0);
+				spriteX.localScale = new Vector3(Tatehiritu, 200, 0);
+				size = qd.yoko / qd.tate;
+				tate.rectTransform.localScale = new Vector3((float)size, 1, 1);
+				yoko.rectTransform.localScale = new Vector3((float)size, 1, 1);
 				
 				tate.text = qd.yoko.ToString();
 				yoko.text = qd.tate.ToString();

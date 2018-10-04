@@ -40,6 +40,34 @@ public class Rittai : MonoBehaviour {
 		url = SceneSelect.UrlString;
 		code = url + "/unity/registerAnswer.php";
 		
+		/*
+		 * Gameobject test = (GameObject)Instantiate(入れるオブジェクト,obj.transform);
+		 */
+
+		if (qd.zukei_type == "cube") //立方体
+		{
+			
+		}
+		else if (qd.zukei_type == "triangularprism") //三角柱
+		{
+			
+		}
+		else if (qd.zukei_type == "squarepyramid") //四角錐
+		{
+			
+		}
+		else if (qd.zukei_type == "trianglepyramid") //三角錐
+		{
+			
+		}
+		else if (qd.zukei_type == "cylinder") //円柱
+		{
+			
+		}
+		else if (qd.zukei_type == "cone") //円錐
+		{
+			
+		}
 	}
 	
 	// Update is called once per frame
