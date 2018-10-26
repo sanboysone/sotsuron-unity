@@ -10,6 +10,9 @@ public class MenuBoard : MonoBehaviour
 	//接続パスワード
 	private string password = "sanboysone";
 	
+	//フラグ
+	private bool connectFlag =false;
+	
 	//ユーザー情報
 	private string student_year;
 	private string student_class;
@@ -51,7 +54,7 @@ public class MenuBoard : MonoBehaviour
 	string[] splitter = {"¥@¥"};
 	//問題の数
 	private string[] arr;
-	private string[] questionsplit;
+	private string[][] questionsplit;
 	private int count;
 	
 	
@@ -90,47 +93,21 @@ public class MenuBoard : MonoBehaviour
 		code = url + "/unity/numquestion.php";
 
 		StartCoroutine("Access");   //Accessコルーチンの開始
-		StartCoroutine(DelayMethod(4, () =>
+
+		schoolName.GetComponent<Text>().text = schoolname;
+		UserInformation.GetComponent<Text>().text =
+		student_year + "年　" + student_class + "組　" + student_number + "番　" + student_name;
+	}
+	
+	// Update is called once per frame
+	void Update () 
+	{
+		if (connectFlag == false && qd != null)
 		{
-			Debug.Log("status = " + status);
-			arr =  status.Split(splitter, StringSplitOptions.None);
-			count = arr.Length;
-
-			if (count != 0)
+			if (qd[count - 1] != null)
 			{
-				code2 = url + "/unity/sendquestion.php";
-				qd = new question_data[count];
-
-				/*
-				for (int i = 0; i < count; i++)
+				if (qd[count - 1].saiten != null)
 				{
-					qd[i] = new question_data();
-				}
-				*/
-				
-				
-			}
-			else
-			{
-				noquestion = true;
-			}
-			//ここから問題の検索をする　/unity/sendquestion.php
-			Debug.Log("qd data = " + qd.Length);
-			Debug.Log("count =" + count);
-			if (noquestion == false)
-			{
-				for (int i = 0; i < count; i++)
-				{
-					
-					StartCoroutine(Access2(arr[i], i));   //Accessコルーチンの開始
-					//このコルーチン処理に入る前にfor文が終わり、iが最大値+1になってるからout of rangeが出る
-					//これをなんとかする
-				}
-				
-				StartCoroutine(DelayMethod(6, () =>
-				{
-					//ボタンの番号を割り振る
-					//数が４より少ない場合は-1とし、-1は「問題がありません」と表示し、ボタンの反応を無しにする
 					if (count < 4)
 					{
 						int j = 0;
@@ -162,27 +139,11 @@ public class MenuBoard : MonoBehaviour
 					alreadyAnswer[1] = qd[1].allready == "yes" ? true : false;
 					alreadyAnswer[2] = qd[2].allready == "yes" ? true : false;
 					alreadyAnswer[3] = qd[3].allready == "yes" ? true : false;
-					
-				}));
-			}
+				}
 
-			
-			
-			
-		}));
-
-		schoolName.GetComponent<Text>().text = schoolname;
-		UserInformation.GetComponent<Text>().text =
-			student_year + "年　" + student_class + "組　" + student_number + "番　" + student_name;
-		
-		
-
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+				connectFlag = true;
+			}	
+		}	
 	}
 
 	public void clickONE()
@@ -409,6 +370,7 @@ public class MenuBoard : MonoBehaviour
 	private IEnumerator Access2(string q_id, int point) {
 		Dictionary<string, string> dic = new Dictionary<string, string>();
 
+		Debug.Log(password + " " + q_id + "  " + student_id);
 		dic.Add("password"          , password);  //インプットフィールドからidの取得);
 		dic.Add("question_id"       , q_id);
 		dic.Add("seito_id"          , student_id);
@@ -438,6 +400,34 @@ public class MenuBoard : MonoBehaviour
 		} else if (www.isDone) {
 			//送られてきたデータをテキストに反映
 			status = www.text;
+			Debug.Log("status = " + status);
+			arr =  status.Split(splitter, StringSplitOptions.None);
+			count = arr.Length;
+			questionsplit = new string[count][];
+
+			if (count != 0)
+			{
+				code2 = SceneSelect.UrlString + "/unity/sendquestion.php";
+				qd = new question_data[count];				
+			}
+			else
+			{
+				noquestion = true;
+			}
+			//ここから問題の検索をする　/unity/sendquestion.php
+			Debug.Log("qd data = " + qd.Length);
+			Debug.Log("count =" + count);
+			if (noquestion == false)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					Debug.Log(code2);
+					StartCoroutine(Access2(arr[i], i)); //Accessコルーチンの開始
+					//このコルーチン処理に入る前にfor文が終わり、iが最大値+1になってるからout of rangeが出る
+					//これをなんとかする
+				}
+				
+			}
 		}
 	}
 
@@ -459,36 +449,22 @@ public class MenuBoard : MonoBehaviour
 			//送られてきたデータをテキストに反映
 			status2 = www.text;
 			Debug.Log(status2);
-			questionsplit =  status2.Split(splitter, StringSplitOptions.None);
+			questionsplit[point] =  status2.Split(splitter, StringSplitOptions.None);
 						
 			qd[point] = new question_data();
-			qd[point].question_id    = Int32.Parse(questionsplit[0]);
-			qd[point].question_title = questionsplit[1];
-			qd[point].question_type  = questionsplit[2];
-			qd[point].main           = questionsplit[3];
-			qd[point].tate           = Double.Parse(questionsplit[4]);
-			qd[point].yoko           = Double.Parse(questionsplit[5]);
-			qd[point].takasa         = Double.Parse(questionsplit[6]);
-			qd[point].zukei_type     = questionsplit[7];
-			qd[point].answer         = questionsplit[8];
-			qd[point].kaisetsu       = questionsplit[9];
-			qd[point].allready       = questionsplit[10];
-			qd[point].kaitou         = questionsplit[11];
-			qd[point].saiten         = questionsplit[12];
-			
-			Debug.Log(message: "q_id =" + qd[point].question_id);
-//			Debug.Log(message: "q_title =" + qd[point].question_title);
-//			Debug.Log(message: "q_type =" + qd[point].question_type);
-//			Debug.Log(message: "q_main =" + qd[point].main);
-//			Debug.Log(message: "q_tate =" + qd[point].tate);
-//			Debug.Log(message: "q_yoko =" + qd[point].yoko);
-//			Debug.Log(message: "q_takasa =" + qd[point].takasa);
-//			Debug.Log(message: "q_zukei_type =" + qd[point].zukei_type);
-//			Debug.Log(message: "q_answer =" + qd[point].answer);
-//			Debug.Log(message: "q_kaisetsu =" + qd[point].kaisetsu);
-//			Debug.Log(message: "q_allready =" + qd[point].allready);
-//			Debug.Log(message: "q_kaitou =" + qd[point].kaitou);
-//			Debug.Log(message: "q_saiten =" + qd[point].saiten);
+			qd[point].question_id    = Int32.Parse(questionsplit[point][0]);
+			qd[point].question_title = questionsplit[point][1];
+			qd[point].question_type  = questionsplit[point][2];
+			qd[point].main           = questionsplit[point][3];
+			qd[point].tate           = Double.Parse(questionsplit[point][4]);
+			qd[point].yoko           = Double.Parse(questionsplit[point][5]);
+			qd[point].takasa         = Double.Parse(questionsplit[point][6]);
+			qd[point].zukei_type     = questionsplit[point][7];
+			qd[point].answer         = questionsplit[point][8];
+			qd[point].kaisetsu       = questionsplit[point][9];
+			qd[point].allready       = questionsplit[point][10];
+			qd[point].kaitou         = questionsplit[point][11];
+			qd[point].saiten         = questionsplit[point][12];
 		}
 	}
 	

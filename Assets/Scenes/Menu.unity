@@ -432,7 +432,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000012398, y: 177.97}
+  m_AnchoredPosition: {x: 0.000012398, y: 165.98}
   m_SizeDelta: {x: 528.4, y: 99.95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &302880428
@@ -755,7 +755,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 184.85, y: -198}
+  m_AnchoredPosition: {x: 184.85, y: -187}
   m_SizeDelta: {x: 198.6, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &923705427
@@ -945,7 +945,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000076294, y: 95}
+  m_AnchoredPosition: {x: 0.0000076294, y: 83}
   m_SizeDelta: {x: 568.3, y: 42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1223872542
@@ -1060,8 +1060,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -397.9, y: -95.5}
-  m_SizeDelta: {x: 140.1, y: 267.6}
+  m_AnchoredPosition: {x: -344.2, y: -66.2}
+  m_SizeDelta: {x: 86.5, y: 297.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1346820255
 GameObject:
@@ -1495,7 +1495,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -180, y: -198}
+  m_AnchoredPosition: {x: -180, y: -187}
   m_SizeDelta: {x: 198.6, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1575401177
@@ -1693,8 +1693,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 373.5, y: 194.1}
-  m_SizeDelta: {x: 178.7, y: 45.8}
+  m_AnchoredPosition: {x: 327.72, y: 192.5}
+  m_SizeDelta: {x: 127.05, y: 49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1699664713
 MonoBehaviour:
@@ -1828,7 +1828,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}

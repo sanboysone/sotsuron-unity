@@ -48,6 +48,7 @@ public class login : MonoBehaviour
 		Debug.Log("login text :" + titleText.GetComponent<Text>().text);
 
 		URL = SceneSelect.UrlString;
+		Debug.Log(URL);
 
 	}
 	
@@ -72,53 +73,6 @@ public class login : MonoBehaviour
 			student_number = number.text;
 
 			StartCoroutine("Access");   //Accessコルーチンの開始
-			StartCoroutine(DelayMethod(4, () =>
-			{
-				Debug.Log("pass = $" + pass.text + "$");
-				Debug.Log("status = " + status);
-				if (status.Equals("success")) //phpから返ってくる結果に応じた処理をする
-				{
-					//メインメニューに進む
-					code = URL + "/unity/username.php";
-					StartCoroutine("Access");
-					StartCoroutine(DelayMethod(9, () =>
-					{
-						student_name = status;
-						Debug.Log("name = " + student_name);
-						code = URL + "/unity/userid.php";
-						StartCoroutine("Access");
-						StartCoroutine(DelayMethod(9, () =>
-						{
-							student_id = status;
-							Debug.Log("id = " + student_id);
-							SceneManager.LoadScene("Menu");
-						}));
-					}));
-					
-					//SceneManager.LoadScene("Menu");
-				}
-				else if (status.Equals("nopass"))
-				{
-					//createpassword				
-					SceneManager.LoadScene("createpass");
-				}
-				else if (status.Equals("notaccess"))
-				{
-					errorText.GetComponent<Text>().text = "パスワードが間違っています";
-				}
-				else if (status.Equals("notinput"))
-				{
-					errorText.GetComponent<Text>().text = "パスワードが未入力です";
-				}
-				else if (status.Equals("nouser"))
-				{
-					errorText.GetComponent<Text>().text = "ユーザーが登録されていません";
-				}
-				else
-				{
-					errorText.GetComponent<Text>().text = "エラー：管理者に連絡してください";
-				}
-			}));
 		}
 		
 	}
@@ -136,6 +90,40 @@ public class login : MonoBehaviour
 		//複数phpに送信したいデータがある場合は今回の場合dic.Add("hoge", value)のように足していけばよい
 
 		StartCoroutine(Post(code, dic));  // POST
+
+		yield return 0;
+	}
+	
+	private IEnumerator Access2() {
+		Dictionary<string, string> dic = new Dictionary<string, string>();
+
+		dic.Add("password"   , password);  //インプットフィールドからidの取得);
+		dic.Add("year"       , student_year);
+		dic.Add("class"      , student_class);
+		dic.Add("number"     , student_number);
+		dic.Add("pass" , pass.text);
+		
+		
+		//複数phpに送信したいデータがある場合は今回の場合dic.Add("hoge", value)のように足していけばよい
+
+		StartCoroutine(Post2(code, dic));  // POST
+
+		yield return 0;
+	}
+	
+	private IEnumerator Access3() {
+		Dictionary<string, string> dic = new Dictionary<string, string>();
+
+		dic.Add("password"   , password);  //インプットフィールドからidの取得);
+		dic.Add("year"       , student_year);
+		dic.Add("class"      , student_class);
+		dic.Add("number"     , student_number);
+		dic.Add("pass" , pass.text);
+		
+		
+		//複数phpに送信したいデータがある場合は今回の場合dic.Add("hoge", value)のように足していけばよい
+
+		StartCoroutine(Post3(code, dic));  // POST
 
 		yield return 0;
 	}
@@ -157,6 +145,103 @@ public class login : MonoBehaviour
 		} else if (www.isDone) {
 			//送られてきたデータをテキストに反映
 			status = www.text;
+			Debug.Log("pass = $" + pass.text + "$");
+			Debug.Log("status = " + status);
+			if (status.Equals("success")) //phpから返ってくる結果に応じた処理をする
+			{
+				//メインメニューに進む
+				code = URL + "/unity/username.php";
+				StartCoroutine("Access2");
+				StartCoroutine(DelayMethod(9, () =>
+				{
+					student_name = status;
+					Debug.Log("name = " + student_name);
+					code = URL + "/unity/userid.php";
+					StartCoroutine("Access");
+					StartCoroutine(DelayMethod(9, () =>
+					{
+						student_id = status;
+						Debug.Log("id = " + student_id);
+						SceneManager.LoadScene("Menu");
+					}));
+				}));
+					
+				//SceneManager.LoadScene("Menu");
+			}
+			else if (status.Equals("nopass"))
+			{
+				//createpassword				
+				SceneManager.LoadScene("createpass");
+			}
+			else if (status.Equals("notaccess"))
+			{
+				errorText.GetComponent<Text>().text = "パスワードが間違っています";
+			}
+			else if (status.Equals("notinput"))
+			{
+				errorText.GetComponent<Text>().text = "パスワードが未入力です";
+			}
+			else if (status.Equals("nouser"))
+			{
+				errorText.GetComponent<Text>().text = "ユーザーが登録されていません";
+			}
+			else
+			{
+				errorText.GetComponent<Text>().text = "エラー：管理者に連絡してください";
+			}
+		}
+	}
+	
+	private IEnumerator Post2(string url, Dictionary<string, string> post) {
+		WWWForm form = new WWWForm();
+		foreach (KeyValuePair<string, string> post_arg in post) {
+			form.AddField(post_arg.Key, post_arg.Value);
+		}
+		WWW www = new WWW(url, form);
+
+		yield return StartCoroutine(CheckTimeOut(www, 3f)); //TimeOutSecond = 3s;
+
+		if (www.error != null) {
+			Debug.Log("HttpPost NG: " + www.error);
+			urlError = true;
+			//そもそも接続ができていないとき
+
+		} else if (www.isDone) {
+			//送られてきたデータをテキストに反映
+			status = www.text;
+			student_name = status;
+			Debug.Log("name = " + student_name);
+			code = URL + "/unity/userid.php";
+			StartCoroutine("Access3");
+			StartCoroutine(DelayMethod(9, () =>
+			{
+				student_id = status;
+				Debug.Log("id = " + student_id);
+				SceneManager.LoadScene("Menu");
+			}));
+		}
+	}
+	
+	private IEnumerator Post3(string url, Dictionary<string, string> post) {
+		WWWForm form = new WWWForm();
+		foreach (KeyValuePair<string, string> post_arg in post) {
+			form.AddField(post_arg.Key, post_arg.Value);
+		}
+		WWW www = new WWW(url, form);
+
+		yield return StartCoroutine(CheckTimeOut(www, 3f)); //TimeOutSecond = 3s;
+
+		if (www.error != null) {
+			Debug.Log("HttpPost NG: " + www.error);
+			urlError = true;
+			//そもそも接続ができていないとき
+
+		} else if (www.isDone) {
+			//送られてきたデータをテキストに反映
+			status = www.text;
+			student_id = status;
+			Debug.Log("id = " + student_id);
+			SceneManager.LoadScene("Menu");
 		}
 	}
 

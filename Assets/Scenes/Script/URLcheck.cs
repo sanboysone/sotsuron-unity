@@ -60,24 +60,7 @@ public class URLcheck : MonoBehaviour
 		
 		}
 		
-		if (urlError == false && timeOutError == false && result_text != null)
-		{
-			// url time out にあわせた遅延
-			StartCoroutine(DelayMethod(4, () =>
-			{
-				Debug.Log(result_text.GetComponent<Text>().text);
-				UrlString = url;
-				schoolname = result_text.GetComponent<Text>().text;
-				url = url + "¥";
-				
-				WriteText("Assets/Resources/URL.txt", url);
-				SceneSelect.schoolname = schoolname;
-				SceneSelect.UrlString = UrlString;
-				SceneManager.LoadScene("main");
-				//データ入れる
-				//テキストのURLにこのURLを入れてpublic statis string schoolを格納するスクリプトを作ってそこに入れる。
-			}));
-		}
+		
 	}
 
 	private IEnumerator Access() {
@@ -109,6 +92,17 @@ public class URLcheck : MonoBehaviour
 		} else if (www.isDone) {
 			//送られてきたデータをテキストに反映
 			result_text.GetComponent<Text>().text = www.text;
+				// url time out にあわせた遅延
+				Debug.Log(result_text.GetComponent<Text>().text);
+				UrlString = url;
+				schoolname = result_text.GetComponent<Text>().text;
+						
+				SceneSelect.schoolname = schoolname;
+				SceneSelect.UrlString = this.url;
+				SceneManager.LoadScene("main");
+					//データ入れる
+					//テキストのURLにこのURLを入れてpublic statis string schoolを格納するスクリプトを作ってそこに入れる。
+
 		}
 	}
 
@@ -128,29 +122,5 @@ public class URLcheck : MonoBehaviour
 		}
 		yield return null;
 	}
-	
-	/// <summary>
-	/// 渡された処理を指定時間後に実行する
-	/// </summary>
-	/// <param name="delayFrameCount"></param>
-	/// <param name="action">実行したい処理</param>
-	/// <returns></returns>
-	private IEnumerator DelayMethod(int delayFrameCount, Action action)
-	{
-		for (var i = 0; i < delayFrameCount; i++)
-		{
-			yield return null;
-		}
-		action();
-	}
-	
-	private void WriteText( string _filePath, string _contents ){
-		StreamWriter sw;
-		sw = new StreamWriter(_filePath, false);
-		sw.WriteLine(_contents);
-		sw.Close();
-	}
-	
-	
 	
 }

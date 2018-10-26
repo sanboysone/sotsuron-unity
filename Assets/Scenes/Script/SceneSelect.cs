@@ -24,6 +24,7 @@ public class SceneSelect : MonoBehaviour {
 		result = null;
 		schoolname = null;
 		
+		/*
 		TextAsset textasset = new TextAsset(); //テキストファイルのデータを取得するインスタンスを作成
 		textasset = Resources.Load("URL", typeof(TextAsset) )as TextAsset; //Resourcesフォルダから対象テキストを取得
 		string TextLines = textasset.text; //テキスト全体をstring型で入れる変数を用意して入れる
@@ -61,6 +62,7 @@ public class SceneSelect : MonoBehaviour {
 			}
 			
 		}
+		*/
 	}
 	
 	// Update is called once per frame
@@ -69,17 +71,19 @@ public class SceneSelect : MonoBehaviour {
 	}
 
 	public void OnClick(){
+		SceneManager.LoadScene ("school_select"); //学校のurlを入力するシーン
+		/*
 		if (textMessage[0] == "" || textMessage[0].Equals("none"))
 		{
 			SceneManager.LoadScene ("school_select"); //学校のurlを入力するシーン
 		}
 		else
 		{
-			/*
-			UrlString = textMessage[0];
-			code = UrlString + "/unity/firstconnection.php";
-			StartCoroutine("Access");
-			*/
+			
+			//UrlString = textMessage[0];
+			//code = UrlString + "/unity/firstconnection.php";
+			//StartCoroutine("Access");
+			
 			
 			if ( result_text.GetComponent<Text>().text == null ||  urlError == true || timeOutError == true)
 			{
@@ -93,6 +97,7 @@ public class SceneSelect : MonoBehaviour {
 			}
 			
 		}
+		*/
 	}
 	
 	private IEnumerator Access() {
