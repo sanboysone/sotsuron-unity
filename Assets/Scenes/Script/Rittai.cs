@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,8 +18,21 @@ public class Rittai : MonoBehaviour {
 	//生成する図形オブジェクト
 	public GameObject obj;
 
+	public Mesh cube;
+	public Mesh cone;
+	public Mesh pyramid;
+	public Mesh cylinder;
+	public Mesh triangularprism;
+	public Mesh triangularpyramid;
+	
 	//問題のデータ
 	private question_data qd;
+	
+	//図形sizeデータ
+	private double tate;
+	private double yoko;
+	private double takasa;
+	private const double scale = 12000;
 	
 	//php送信情報
 	private string password ="sanboysone";
@@ -31,6 +46,10 @@ public class Rittai : MonoBehaviour {
 	private bool urlError;
 	private bool timeOutError;
 	
+	//移動変数
+	private float x, y;
+	private float speed = 300;
+	
 	// Use this for initialization
 	void Start () {
 		seito_id = login.student_id;
@@ -43,36 +62,122 @@ public class Rittai : MonoBehaviour {
 		/*
 		 * Gameobject test = (GameObject)Instantiate(入れるオブジェクト,obj.transform);
 		 */
-
+		if (qd.tate == qd.yoko && qd.yoko == qd.tate)
+		{
+			tate   = scale;
+			yoko   = tate;
+			takasa = yoko;
+		}
+		else if (qd.tate == qd.yoko && qd.yoko > qd.takasa)
+		{
+			tate = scale;
+			yoko = tate;			
+			takasa = scale * (qd.takasa / qd.yoko );
+		}
+		else if (qd.tate == qd.yoko && qd.yoko < qd.takasa)
+		{
+			takasa = scale;
+			yoko = takasa * (qd.yoko / qd.takasa);
+			tate = yoko;
+		}
+		else if (qd.tate > qd.yoko && qd.yoko == qd.takasa)
+		{
+			tate = scale;
+			yoko = tate * (qd.yoko / qd.tate);
+			takasa = yoko;
+		}
+		else if (qd.tate < qd.yoko && qd.yoko == qd.takasa)
+		{
+			takasa = scale;
+			yoko = takasa;
+			tate = takasa * (qd.tate / qd.yoko);
+		}
+		else if (qd.tate > qd.yoko && qd.yoko > qd.takasa)
+		{
+			tate = scale;
+			yoko = tate * (qd.yoko / qd.tate);
+			takasa = yoko * (qd.takasa / qd.yoko);
+		}
+		else if (qd.tate > qd.yoko && qd.yoko < qd.takasa)
+		{
+			if (qd.tate < qd.takasa)
+			{
+				takasa = scale;
+				tate = takasa * (qd.tate / qd.tate);
+				yoko = tate * (qd.yoko / qd.tate);
+			}
+			else
+			{
+				tate = scale;
+				takasa = tate * (qd.takasa / qd.tate);
+				yoko = tate * (qd.yoko / qd.takasa);
+			}
+		}
+		else if (qd.tate < qd.yoko && qd.yoko < qd.takasa)
+		{
+			takasa = scale;
+			yoko = takasa * (qd.yoko / qd.takasa);
+			tate = yoko * (qd.tate / qd.yoko);
+		}
+		else if (qd.tate < qd.yoko && qd.yoko > qd.takasa)
+		{
+			yoko = scale;
+			
+			if (qd.tate < qd.takasa)
+			{
+				takasa = yoko * (qd.takasa / qd.yoko);
+				tate = takasa * (qd.tate / qd.takasa);
+			}
+			else
+			{
+				tate = yoko * (qd.tate / qd.yoko);
+				takasa = tate * (qd.takasa / qd.tate);
+			}
+		}
+		
 		if (qd.zukei_type == "cube") //立方体
 		{
-			
+			obj.GetComponent<MeshFilter>().mesh = cube;
+			obj.GetComponent<Transform>().localScale = new Vector3((float)yoko,(float)takasa,(float)tate);
+
 		}
 		else if (qd.zukei_type == "triangularprism") //三角柱
 		{
-			
+			obj.GetComponent<MeshFilter>().mesh = triangularprism;
+			obj.GetComponent<Transform>().localScale = new Vector3((float)yoko,(float)takasa,(float)tate);
 		}
 		else if (qd.zukei_type == "squarepyramid") //四角錐
 		{
-			
+			obj.GetComponent<MeshFilter>().mesh = pyramid;
+			obj.GetComponent<Transform>().localScale = new Vector3((float)yoko,(float)takasa,(float)tate);
 		}
 		else if (qd.zukei_type == "trianglepyramid") //三角錐
 		{
-			
+			obj.GetComponent<MeshFilter>().mesh = triangularpyramid;
+			obj.GetComponent<Transform>().localScale = new Vector3((float)yoko,(float)takasa,(float)tate);
 		}
 		else if (qd.zukei_type == "cylinder") //円柱
 		{
-			
+			obj.GetComponent<MeshFilter>().mesh = cylinder;
+			obj.GetComponent<Transform>().localScale = new Vector3((float)yoko,(float)takasa,(float)tate);
 		}
 		else if (qd.zukei_type == "cone") //円錐
 		{
-			
+			obj.GetComponent<MeshFilter>().mesh = cone;
+			obj.GetComponent<Transform>().localScale = new Vector3((float)yoko,(float)takasa,(float)tate);
 		}
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetMouseButton(0))
+		{
+			x += Input.GetAxis("Mouse X") * speed * -0.02f;
+			y -= Input.GetAxis("Mouse Y") * speed * -0.02f;
+		}
+		Quaternion rotation = Quaternion.Euler(y,x,0);
+		obj.transform.rotation = rotation;
 	}
 	
 	public void onclick()
@@ -146,7 +251,7 @@ public class Rittai : MonoBehaviour {
 				MenuBoard.qd[MenuBoard.openID].allready = "yes";
 				MenuBoard.qd[MenuBoard.openID].kaitou = IF.text;
 				MenuBoard.qd[MenuBoard.openID].saiten = saiten;
-				SceneManager.LoadScene("Menu");
+				SceneManager.LoadScene("Answer");
 			}
 			else
 			{

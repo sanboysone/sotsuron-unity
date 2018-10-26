@@ -249,7 +249,7 @@ public class Heimen : MonoBehaviour
 				MenuBoard.qd[MenuBoard.openID].allready = "yes";
 				MenuBoard.qd[MenuBoard.openID].kaitou = IF.text;
 				MenuBoard.qd[MenuBoard.openID].saiten = saiten;
-				SceneManager.LoadScene("Menu");
+				SceneManager.LoadScene("Answer");
 			}
 			else
 			{
