@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Sonota.unity
     guid: 62d19e734422548f2ba568ccec76b5dc
+  - enabled: 1
+    path: Assets/Scenes/Answer.unity
+    guid: 2e4ac0e67b2c242e3ab2f02a41b645d2
   m_configObjects: {}
